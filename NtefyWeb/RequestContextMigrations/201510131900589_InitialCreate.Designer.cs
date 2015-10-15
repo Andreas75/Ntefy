@@ -7,13 +7,13 @@ namespace NtefyWeb.RequestContextMigrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class Initial : IMigrationMetadata
+    public sealed partial class InitialCreate : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
         
         string IMigrationMetadata.Id
         {
-            get { return "201506041950397_Initial"; }
+            get { return "201510131900589_InitialCreate"; }
         }
         
         string IMigrationMetadata.Source

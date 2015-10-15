@@ -14,35 +14,13 @@ namespace NtefyWeb.Controllers
     {
         private IRequestRepository repository;
 
-        public HomeController(IRequestRepository repository)
+        public HomeController()
         {
-            this.repository = repository;
+            
         }
 
         public ActionResult Index()
-        {
-            var userId = User.Identity.GetUserId();
-            var context = new RequestContext();
-            //var record = new Record
-            //{
-            //    Artist = "Jamie xx",
-            //    Title = "In Colour"
-            //};
-            //context.Records.Add(record);
-            //context.SaveChanges();
-
-            //var recordId = context.Records.First().RecordId;
-            //if(userId != null)
-            //{
-            //    var request = new Request
-            //    {
-            //        UserId = userId,
-            //        RequestDate = DateTime.Now,
-            //        RecordId = recordId
-            //    };
-            //    context.Requests.Add(request);
-            //    context.SaveChanges();
-            //}
+        {            
             return View();
         }
 

@@ -85,6 +85,9 @@
     <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
     </Reference>
+    <Reference Include="Owin.Security.Providers">
+      <HintPath>..\packages\Owin.Security.Providers.1.25\lib\net45\Owin.Security.Providers.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -207,8 +210,6 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="App_Start\UnityConfig.cs" />
-    <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -222,9 +223,9 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RequestContextMigrations\201506041950397_Initial.cs" />
-    <Compile Include="RequestContextMigrations\201506041950397_Initial.Designer.cs">
-      <DependentUpon>201506041950397_Initial.cs</DependentUpon>
+    <Compile Include="RequestContextMigrations\201510131900589_InitialCreate.cs" />
+    <Compile Include="RequestContextMigrations\201510131900589_InitialCreate.Designer.cs">
+      <DependentUpon>201510131900589_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="RequestContextMigrations\Configuration.cs" />
     <Compile Include="Startup.cs" />
@@ -299,8 +300,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="RequestContextMigrations\201506041950397_Initial.resx">
-      <DependentUpon>201506041950397_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="RequestContextMigrations\201510131900589_InitialCreate.resx">
+      <DependentUpon>201510131900589_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

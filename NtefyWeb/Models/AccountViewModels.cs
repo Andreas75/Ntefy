@@ -8,6 +8,10 @@ namespace NtefyWeb.Models
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Country")]
+        public string Country { get; set; }
     }
 
     public class ExternalLoginListViewModel

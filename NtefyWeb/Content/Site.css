@@ -22,3 +22,16 @@ select,
 textarea {
     max-width: 280px;
 }
+
+button#Instagram {
+    width: 100%;
+    margin-bottom: 20px;
+}
+button#Google {
+    width: 100%;
+    margin-bottom: 20px;
+}
+button#Facebook {
+    width: 100%;
+    margin-bottom: 20px;
+}

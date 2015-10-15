@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
+using Owin.Security.Providers.Instagram;
 using Owin;
 using NtefyWeb.Models;
 using NtefyWeb.DAL.Models;
@@ -56,15 +57,20 @@ namespace NtefyWeb
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "561113424043004",
+               appSecret: "0fff8857c0d0561aeeeecf113577b251");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "568782389378-c564tf6kemd8tlrmn68eij1arnmu7lbk.apps.googleusercontent.com",
+                ClientSecret = "Ihk5a2MLKhGfPYBm4GoP2mzg"
+            });
+
+            app.UseInstagramInAuthentication(
+                clientId: "028c5130716e4b9da5966b25f6297b14",
+                clientSecret: "20037734e77c43b09782c259a60b3a8d"); 
+            
         }
     }
 }

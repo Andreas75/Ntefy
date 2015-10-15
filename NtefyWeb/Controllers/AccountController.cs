@@ -368,7 +368,7 @@ namespace NtefyWeb.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new User { UserName = model.Email, Email = model.Email };
+                var user = new User { UserName = model.Email, Email = model.Email, Country = model.Country };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
