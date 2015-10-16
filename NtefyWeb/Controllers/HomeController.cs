@@ -7,20 +7,16 @@ using Microsoft.AspNet.Identity;
 using NtefyWeb.DAL;
 using NtefyWeb.DAL.Models;
 using NtefyWeb.DAL.Repository.Abstract;
+using NtefyWeb.Business;
 
 namespace NtefyWeb.Controllers
 {
     public class HomeController : Controller
     {
-        private IRequestRepository repository;
-
-        public HomeController()
-        {
-            
-        }
+        
 
         public ActionResult Index()
-        {            
+        {                  
             return View();
         }
 

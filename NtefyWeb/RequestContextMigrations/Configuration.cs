@@ -1,12 +1,13 @@
 namespace NtefyWeb.RequestContextMigrations
 {
+    using NtefyWeb.DAL;
     using NtefyWeb.DAL.Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<NtefyWeb.DAL.RequestContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<RequestContext>
     {
         public Configuration()
         {
@@ -14,7 +15,7 @@ namespace NtefyWeb.RequestContextMigrations
             MigrationsDirectory = @"RequestContextMigrations";
         }
 
-        protected override void Seed(NtefyWeb.DAL.RequestContext context)
+        protected override void Seed(RequestContext context)
         {
             var user1 = new User
             {

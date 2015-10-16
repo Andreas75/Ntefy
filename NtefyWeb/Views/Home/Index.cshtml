@@ -1,24 +1,32 @@
-﻿@{
+﻿@using NtefyWeb.Models.ViewModels
+@model RecordViewModel
+
+@{
     ViewBag.Title = "Home Page";
 }
 
 
   
-<div class="row">
-@if (!Request.IsAuthenticated)
-{
-    @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml", new NtefyWeb.Models.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-}
-else
-{
-    @Html.Partial("_LoginPartial") 
-}
-</div>
+
 
 
 @if (Request.IsAuthenticated)
 {
+    using (Html.BeginForm("AddRecord", "Request", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-md-6">
+                @Html.LabelFor(x => x.Artist)
+                @Html.TextBoxFor(x => x.Artist)
+            </div>
+            <div class="col-md-6">
+                @Html.LabelFor(x => x.Title)
+                @Html.TextBoxFor(x => x.Title)
+            </div>
+        </div>
     
+        <input type="submit" class="btn btn-default" />
+    }
 }
 @*<div class="row">
     <div class="col-md-4">

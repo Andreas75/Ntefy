@@ -19,6 +19,7 @@
     </script>
 </head>
 <body>
+    
     @*<div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -40,6 +41,16 @@
     </div>*@
     @*@Html.Partial("_LoginPartial")*@
     <div class="container body-content">
+        <div class="row">
+            @if (!Request.IsAuthenticated)
+            {
+                @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml", new NtefyWeb.Models.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+            }
+            else
+            {
+                @Html.Partial("_LoginPartial")
+            }
+        </div>
         @RenderBody()
         <hr />
         <footer>

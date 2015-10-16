@@ -210,11 +210,15 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Business\AlbumCache.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\RequestController.cs" />
     <Compile Include="DAL\Models\User.cs" />
+    <Compile Include="DAL\Repository\Abstract\IRecordRepository.cs" />
     <Compile Include="DAL\Repository\Abstract\IRequestRepository.cs" />
+    <Compile Include="DAL\Repository\Concrete\RecordRepository.cs" />
     <Compile Include="DAL\Repository\Concrete\RequestRepository.cs" />
     <Compile Include="DAL\RequestContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -222,6 +226,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ViewModels\RecordViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestContextMigrations\201510131900589_InitialCreate.cs" />
     <Compile Include="RequestContextMigrations\201510131900589_InitialCreate.Designer.cs">
@@ -290,7 +295,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Business\" />
+    <Folder Include="Views\Request\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

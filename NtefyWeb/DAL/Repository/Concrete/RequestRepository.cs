@@ -1,4 +1,6 @@
-﻿using NtefyWeb.DAL.Repository.Abstract;
+﻿using NtefyWeb.Business;
+using NtefyWeb.DAL.Models;
+using NtefyWeb.DAL.Repository.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +16,12 @@ namespace NtefyWeb.DAL.Repository.Concrete
             dbContext = new RequestContext();
         }
 
-        public void AddRequest(Models.Request request)
+        public void AddRequest(Request request)
         {
             if(request != null)
             {
                 dbContext.Requests.Add(request);
             }
-        }
+        }        
     }
 }
