@@ -17,11 +17,11 @@
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
-input,
+/*input,
 select,
 textarea {
     max-width: 280px;
-}
+}*/
 
 button#Instagram {
     width: 100%;
@@ -35,3 +35,47 @@ button#Facebook {
     width: 100%;
     margin-bottom: 20px;
 }
+button#Spotify{
+    width: 100%;
+    margin-bottom: 20px;
+}
+button#Reddit{
+    width: 100%;
+    margin-bottom: 20px;
+}
+button#Flickr{
+    width: 100%;
+    margin-bottom: 20px;
+}
+img.logo.img-responsive{
+    margin: 0 auto;
+}
+
+.artistLabel, .recordLabel, .artistTextField, .recordTextField{
+    margin-left: 1.1em;
+}
+
+.requestSubmit{
+    margin-top: 1em;
+}
+/*Bootstrap overrides*/
+.nav > li > a {
+    position: relative;
+    display: block;
+    padding: 10px 8px;
+}
+
+.navbar-default {
+    background-color: transparent;
+    border: none;    
+}
+
+.navbar {
+    position: relative;
+    z-index: 1000;
+    /*min-height: 50px;*/
+    margin-bottom: -20px;
+    padding-top: 30px;
+    /*border-bottom: 1px solid transparent;*/
+}
+

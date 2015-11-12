@@ -10,6 +10,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6FB7E5
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NtefySpotify", "NtefySpotify\NtefySpotify.csproj", "{55897701-0C21-4508-8B68-A888DAA2ED32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NtefyEmail", "NtefyEmail\NtefyEmail.csproj", "{10A7BA6A-3A65-49B4-915E-DB955E060D15}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +24,14 @@ Global
 		{41D8F9CF-2A09-41EB-BC31-74DBFC5EFAAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41D8F9CF-2A09-41EB-BC31-74DBFC5EFAAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41D8F9CF-2A09-41EB-BC31-74DBFC5EFAAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55897701-0C21-4508-8B68-A888DAA2ED32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55897701-0C21-4508-8B68-A888DAA2ED32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55897701-0C21-4508-8B68-A888DAA2ED32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55897701-0C21-4508-8B68-A888DAA2ED32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10A7BA6A-3A65-49B4-915E-DB955E060D15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10A7BA6A-3A65-49B4-915E-DB955E060D15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10A7BA6A-3A65-49B4-915E-DB955E060D15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10A7BA6A-3A65-49B4-915E-DB955E060D15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

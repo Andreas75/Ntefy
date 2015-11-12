@@ -1,0 +1,12 @@
+﻿@model NtefyWeb.Models.ViewModels.RequestEmail
+
+Content-Type: text/html; charset=utf-8
+
+<html>
+<body>
+   <h1>Hello</h1>
+    <p>@Model.Artist - @Model.Title is now available on Spotify.</p>
+    <a href="@Model.Url">Listen here</a>
+    <img src="@Model.ImageUrl" />
+</body>
+</html>

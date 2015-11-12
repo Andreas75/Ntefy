@@ -9,6 +9,8 @@ namespace NtefyWeb.DAL.Repository.Abstract
 {
     public interface IRequestRepository
     {
-        void AddRequest(Request request);        
+        void AddRequest(Guid recordId, string userId);
+        List<Request> GetAllRequestsForUser(string userId);
+        List<Request> GetAllRequestForAlbum(Guid recordId);
     }
 }

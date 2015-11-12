@@ -1,11 +1,10 @@
-﻿using NtefyWeb.DAL;
-using NtefyWeb.DAL.Models;
+﻿using NtefyWeb.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace NtefyWeb.Business
+namespace NtefyWeb.DAL
 {
     public static class AlbumCache
     {
@@ -21,9 +20,15 @@ namespace NtefyWeb.Business
             HttpRuntime.Cache.Insert("cachedAlbums", dbContext.Records.ToList<Record>(), null, System.Web.Caching.Cache.NoAbsoluteExpiration, TimeSpan.Zero);
         }
 
-        public static List<Record> GetFromCache()
+        public static List<Record> GetAllRecordsFromCache()
         {
             return HttpRuntime.Cache["cachedAlbums"] as List<Record>; 
+        }
+
+        public static Record GetRecordFromCache(string artist, string title)
+        {
+            var cachedRecords = HttpRuntime.Cache["cachedAlbums"] as List<Record>;
+            return cachedRecords.First(x => artist == x.Artist && title == x.Title);
         }
     }
 }

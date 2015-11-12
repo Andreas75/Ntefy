@@ -5,15 +5,21 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin.Security.Providers.Instagram;
+using Owin.Security.Providers.Spotify;
+using Owin.Security.Providers.Reddit;
+using Owin.Security.Providers.Flickr;
 using Owin;
 using NtefyWeb.Models;
 using NtefyWeb.DAL.Models;
 using NtefyWeb.DAL;
+using System.Web.Configuration;
 
 namespace NtefyWeb
 {
     public partial class Startup
-    {
+    {    
+
+       
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
@@ -57,19 +63,31 @@ namespace NtefyWeb
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            app.UseFacebookAuthentication(
-               appId: "561113424043004",
-               appSecret: "0fff8857c0d0561aeeeecf113577b251");
+            app.UseFacebookAuthentication(               
+               appId: WebConfigurationManager.AppSettings["FacebookAuthId"],
+               appSecret: WebConfigurationManager.AppSettings["FacebookAuthSecret"]);            
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "568782389378-c564tf6kemd8tlrmn68eij1arnmu7lbk.apps.googleusercontent.com",
-                ClientSecret = "Ihk5a2MLKhGfPYBm4GoP2mzg"
+                ClientId = WebConfigurationManager.AppSettings["GoogleAuthId"],
+                ClientSecret = WebConfigurationManager.AppSettings["GoogleAuthSecret"]
             });
 
             app.UseInstagramInAuthentication(
-                clientId: "028c5130716e4b9da5966b25f6297b14",
-                clientSecret: "20037734e77c43b09782c259a60b3a8d"); 
+                clientId: WebConfigurationManager.AppSettings["InstagramAuthId"],
+                clientSecret: WebConfigurationManager.AppSettings["InstagramAuthSecret"]);
+
+            app.UseSpotifyAuthentication(
+                clientId: WebConfigurationManager.AppSettings["SpotifyAuthId"],
+                clientSecret: WebConfigurationManager.AppSettings["SpotifyAuthSecret"]);
+
+            app.UseRedditAuthentication(
+                clientId: WebConfigurationManager.AppSettings["RedditAuthId"],
+                clientSecret: WebConfigurationManager.AppSettings["RedditAuthSecret"]);
+
+            app.UseFlickrAuthentication(
+                appKey: WebConfigurationManager.AppSettings["FlickrAuthId"],
+                appSecret: WebConfigurationManager.AppSettings["FlickrAuthSecret"]);
             
         }
     }

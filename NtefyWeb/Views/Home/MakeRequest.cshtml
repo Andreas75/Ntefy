@@ -1,0 +1,43 @@
+﻿@using NtefyWeb.Models.ViewModels
+@model RecordViewModel
+
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+@if (Request.IsAuthenticated)
+{
+    @Html.Partial("~/Views/Shared/_LoginPartial.cshtml")
+    using (Html.BeginForm("MakeRequest", "Request", FormMethod.Post))
+    {
+        <div class="form-group">
+            <div class="col-md-4 col-md-offset-4">
+                @Html.LabelFor(x => x.Artist, new { @class = "artistLabel" })
+                @Html.TextBoxFor(x => x.Artist, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4 col-md-offset-4">
+                @Html.LabelFor(x => x.Title, new { @class = "recordLabel" })
+                @Html.TextBoxFor(x => x.Title, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group col-md-1 col-md-offset-4">
+            <input type="submit" class="btn btn-default requestSubmit" value="Ntefy me!" />
+        </div>
+    }
+}
+else
+{
+    <div class="row">
+        @if (!Request.IsAuthenticated)
+        {
+            <p>Log in to Ntefy using your preferred service</p>
+            @Html.Partial("~/Views/Account/_ExternalLoginsListPartial.cshtml", new NtefyWeb.Models.ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+        }
+        else
+        {
+
+        }
+    </div>
+}

@@ -15,9 +15,7 @@ namespace NtefyWeb.DAL.Models
     public class User : IdentityUser
     {
         [Required]
-        public string Country { get; set; }
-
-        public ICollection<Request> Requests { get; set; }
+        public string Country { get; set; }        
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<User> manager)
         {
@@ -29,9 +27,9 @@ namespace NtefyWeb.DAL.Models
     }
 
     public class Request
-    {
-        [Key]     
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    {        
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]        
+        public Guid RequestId { get; set; }
         public string UserId { get; set; }        
         public Guid RecordId { get; set; }
         public DateTime RequestDate { get; set; }
