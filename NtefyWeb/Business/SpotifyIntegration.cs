@@ -32,5 +32,10 @@ namespace NtefyWeb.Business
             var album = await recordsHandling.GetSpecificRecord<FullAlbum>(id, token);
             return album;
         }
+
+        public async Task<MultipleAlbumSearch> GetMultibleAlbums(string ids, string token)
+        {
+            return await recordsHandling.GetMultipleRecords<MultipleAlbumSearch>(ids, token);
+        }
     }
 }

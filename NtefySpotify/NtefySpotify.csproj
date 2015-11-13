@@ -76,6 +76,7 @@
     <Compile Include="Models\AlbumSearch.cs" />
     <Compile Include="Models\Copyright.cs" />
     <Compile Include="Models\FullAlbum.cs" />
+    <Compile Include="Models\MultipleAlbumSearch.cs" />
     <Compile Include="Models\Paging.cs" />
     <Compile Include="Models\SimpleAlbum.cs" />
     <Compile Include="Models\SimpleArtist.cs" />

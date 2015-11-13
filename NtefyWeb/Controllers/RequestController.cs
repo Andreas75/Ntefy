@@ -31,9 +31,8 @@ namespace NtefyWeb.Controllers
         [HttpPost]
         public async Task<ActionResult> MakeRequest(RecordViewModel model)
         {
-            var token = (string)Session["accesstoken"];
-            new SearchRequestBackgroundTask().SetUpBrackgroundTask(userRepo.GetCurrentUserMarket(), token);
 
+            var token = (string)Session["accesstoken"];
             
             if (ModelState.IsValid)
             {
@@ -42,7 +41,7 @@ namespace NtefyWeb.Controllers
             }           
 
             var albumSearch = await new SpotifyIntegration().SerachForAlbum(new Record { Artist = model.Artist, Title = model.Title }, token, userRepo.GetCurrentUserMarket());
-            
+                        
             if (albumSearch != null)
             {
                 var album = await new SpotifyIntegration().GetAlbum(albumSearch.Id, token);
@@ -60,7 +59,6 @@ namespace NtefyWeb.Controllers
                 return Json(new { message = "", artist = model.Artist, title = model.Title });
 
             }
-
             
         }
 

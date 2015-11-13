@@ -83,10 +83,6 @@
       <Project>{55897701-0c21-4508-8b68-a888daa2ed32}</Project>
       <Name>NtefySpotify</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NtefyWeb\NtefyWeb.csproj">
-      <Project>{41d8f9cf-2a09-41eb-bc31-74dbfc5efaab}</Project>
-      <Name>NtefyWeb</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

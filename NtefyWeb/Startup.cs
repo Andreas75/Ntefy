@@ -9,7 +9,7 @@ namespace NtefyWeb
 {
     public partial class Startup
     {
-        public async void Configuration(IAppBuilder app)
+        public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
             GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");

@@ -36,6 +36,12 @@ namespace NtefyWeb.DAL.Repository.Concrete
             }
         }
 
+        public Guid GetIdForRecord(Record record)
+        {
+            var cachedRecord = AlbumCache.GetRecordFromCache(record.Artist, record.Title);
+            return cachedRecord.RecordId;
+        }
+
         
     }
 }

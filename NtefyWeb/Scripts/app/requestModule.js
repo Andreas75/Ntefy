@@ -24,6 +24,8 @@
                     handleRequestAdded(response);
                 }
             })
+            $('#Artist').val('').focus();
+            $('#Title').val('');
         });
     }
 

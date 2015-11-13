@@ -1,5 +1,4 @@
 ﻿using NtefySpotify.Models;
-using NtefyWeb.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,21 +15,24 @@ namespace NtefyEmail
 {
     public static class Create
     {
-        public static void CreateEmail(SimpleAlbum album, Request request)
+        public static void CreateEmail(FullAlbum album, string recipitans)
         {
             var viewsPath = Path.GetFullPath(HostingEnvironment.MapPath(@"~/Views/Emails"));
             var engines = new ViewEngineCollection();
             engines.Add(new FileSystemRazorViewEngine(viewsPath));
 
-            var service = new EmailService(engines);
+            var emailService = new EmailService(engines);
 
             var email = new RequestEmail
             {
+                Artist = album.Artists.First().Name,
                 Title = album.Name,
-                Url = album.Href
+                Url = album.Href,
+                ImageUrl = album.Images.First().Url,
+                Recipitans = recipitans
             };
 
-            email.Send();
+            emailService.Send(email);
         }
     }
 }

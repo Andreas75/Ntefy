@@ -28,7 +28,8 @@ namespace NtefyWeb.DAL
         public static Record GetRecordFromCache(string artist, string title)
         {
             var cachedRecords = HttpRuntime.Cache["cachedAlbums"] as List<Record>;
-            return cachedRecords.First(x => artist == x.Artist && title == x.Title);
+            var result = cachedRecords.FirstOrDefault(x => artist.ToLower() == x.Artist.ToLower() && title.ToLower() == x.Title.ToLower());
+            return result;
         }
     }
 }

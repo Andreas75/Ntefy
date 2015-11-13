@@ -79,3 +79,11 @@ img.logo.img-responsive{
     /*border-bottom: 1px solid transparent;*/
 }
 
+
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;   
+}
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;   
+}

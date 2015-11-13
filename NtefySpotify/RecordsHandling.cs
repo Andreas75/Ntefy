@@ -41,6 +41,15 @@ namespace NtefySpotify
             return result;            
         }
 
+        public async Task<T> GetMultipleRecords<T>(string recordIds, string token)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("https://api.spotify.com/v1/albums/?ids=");
+            sb.Append(recordIds);
+            var result = await DoRequest<T>(sb.ToString(), token);
+            return result;
+        }
+
         private async Task<T> DoRequest<T>(string url, string token)
         {
             try

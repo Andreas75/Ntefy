@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Web.Configuration;
 using NtefyWeb.Business;
 using Hangfire;
+using NtefyWeb.DAL.Repository.Concrete;
 
 namespace NtefyWeb.Controllers
 {
@@ -19,20 +20,20 @@ namespace NtefyWeb.Controllers
     {
         private AccessToken accessToken;
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {            
-            GetAccessToken();
+            await GetAccessToken();
+            if (Request.IsAuthenticated)
+            {
+                var userRepo = new UserRepository();                
+                new SearchRequestBackgroundTask().SetUpBrackgroundTask(userRepo.GetCurrentUserMarket());
+            }
             return View();
         }
 
 
         public ActionResult AccessTokenCallback(string access_token, string token_type, string expires_in, string state)
         {
-            if (access_token != null)
-            {
-                //ViewBag["token"] = access_token;
-            }
-
             return RedirectToAction("MakeRequest");
         }
 
@@ -58,7 +59,6 @@ namespace NtefyWeb.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
-
             return View();
         }
     }

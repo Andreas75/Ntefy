@@ -338,6 +338,10 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NtefyEmail\NtefyEmail.csproj">
+      <Project>{10a7ba6a-3a65-49b4-915e-db955e060d15}</Project>
+      <Name>NtefyEmail</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NtefySpotify\NtefySpotify.csproj">
       <Project>{55897701-0c21-4508-8b68-a888daa2ed32}</Project>
       <Name>NtefySpotify</Name>
