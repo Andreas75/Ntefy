@@ -30,35 +30,44 @@ namespace NtefyWeb.Controllers
 
         [HttpPost]
         public async Task<ActionResult> MakeRequest(RecordViewModel model)
-        {
-
+        {            
             var token = (string)Session["accesstoken"];
             
             if (ModelState.IsValid)
-            {
-                recordRepo.AddRecord(new Record { Artist = model.Artist, Title = model.Title });
-                requestRepo.AddRequest(AlbumCache.GetRecordFromCache(model.Artist, model.Title).RecordId, userRepo.GetCurrentUserId());
-            }           
+            {                    
 
-            var albumSearch = await new SpotifyIntegration().SerachForAlbum(new Record { Artist = model.Artist, Title = model.Title }, token, userRepo.GetCurrentUserMarket());
+                var albumSearch = await new SpotifyIntegration().SerachForAlbum(new Record { Artist = model.Artist, Title = model.Title }, token, userRepo.GetCurrentUserMarket());
                         
-            if (albumSearch != null)
-            {
-                var album = await new SpotifyIntegration().GetAlbum(albumSearch.Id, token);
-                var resultJson = Json(new
+                if (albumSearch != null)
                 {
-                    message = "Request found",
-                    artist = album.Artists.First().Name,
-                    title = album.Name,
-                    url = album.ExternalUrls["spotify"]                   
-                });
-                return resultJson;
-            }
-            else
-            {
-                return Json(new { message = "", artist = model.Artist, title = model.Title });
+                    var album = await new SpotifyIntegration().GetAlbum(albumSearch.Id, token);
+                    if (album != null)
+                    {                        
+                        var resultJson = Json(new
+                        {
+                            message = "Request found",
+                            artist = album.Artists.First().Name,
+                            title = album.Name,
+                            url = album.ExternalUrls["spotify"]
+                        });
+                        return resultJson;
+                    }
+               
+                }
+                else
+                {
+                    recordRepo.AddRecord(new Record { Artist = model.Artist, Title = model.Title });
+                    var recordFromCache = AlbumCache.GetRecordFromCache(model.Artist, model.Title);
+                    if (recordFromCache != null)
+                    {
+                        requestRepo.AddRequest(recordFromCache.RecordId, userRepo.GetCurrentUserId());
+                    }
+                }
+            }   
+           
+            return Json(new { message = "", artist = model.Artist, title = model.Title });
 
-            }
+            
             
         }
 

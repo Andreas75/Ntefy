@@ -28,7 +28,7 @@ namespace NtefyWeb.DAL.Repository.Concrete
                 var isDublicate = cachedRecords.Any(x => x.Artist.ToLower() == record.Artist.ToLower() && x.Title.ToLower() == record.Title.ToLower());
                 if(!isDublicate)
                 {
-                    dbContext.Records.Add(record);
+                    dbContext.Records.Add(record);                    
                     dbContext.SaveChanges();
                     AlbumCache.UpdateCache();                    
                 }
@@ -39,7 +39,25 @@ namespace NtefyWeb.DAL.Repository.Concrete
         public Guid GetIdForRecord(Record record)
         {
             var cachedRecord = AlbumCache.GetRecordFromCache(record.Artist, record.Title);
-            return cachedRecord.RecordId;
+            if (cachedRecord != null)
+            {
+                return cachedRecord.RecordId;
+            }
+            else
+            {
+                return Guid.Empty;
+            }            
+        }
+
+        public void UpdateRecordTitle(Record record, string spotifyTitle)
+        {
+            var albums = dbContext.Records.Where(x => x.Artist == record.Artist && x.Title == record.Title);
+            foreach (var album in albums)
+            {
+                album.Title = spotifyTitle;
+            }
+            dbContext.SaveChanges();
+            AlbumCache.UpdateCache();
         }
 
         

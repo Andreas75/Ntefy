@@ -46,6 +46,7 @@ namespace NtefyWeb.Business
                 var result = await spotifyIntegration.SerachForAlbum(request.Record, token, userMarket);
                 if (result != null)
                 {
+                    recordRepo.UpdateRecordTitle(request.Record, result.Name);
                     recordIds.Add(result.Id);                                                         
                 }
             }
@@ -56,8 +57,12 @@ namespace NtefyWeb.Business
                 try
                 {
                     Guid recordId = recordRepo.GetIdForRecord(new Record { Artist = album.Artists.First().Name, Title = album.Name });
-                    var recipitans = requestRepo.GetAllRecipitansForAlbumRequest(recordId);
-                    Create.CreateEmail(album, recipitans);
+                    if (recordId != Guid.Empty)
+                    {
+                        var recipitans = requestRepo.GetAllRecipitansForAlbumRequest(recordId);
+                        Create.CreateEmail(album, recipitans);
+                    }
+                    
                 }
                 catch(Exception ex)
                 {

@@ -17,6 +17,7 @@ namespace NtefyWeb.DAL
 
         public static void UpDateCache()
         {
+            HttpRuntime.Cache.Remove("cachedRequests");
             HttpRuntime.Cache.Insert("cachedRequests", dbContext.Requests.ToList<Request>(), null, System.Web.Caching.Cache.NoAbsoluteExpiration, TimeSpan.Zero);
         }
 
