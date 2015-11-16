@@ -260,10 +260,19 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\Ntefy_Logo.png" />
     <Content Include="Content\Images\Ntefy_Stencil.png" />
+    <Content Include="Content\Site.css">
+      <DependentUpon>Site.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.min.css">
+      <DependentUpon>Site.css</DependentUpon>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
+    <Content Include="Content\Site.css.map">
+      <DependentUpon>Site.css</DependentUpon>
+    </Content>
+    <None Include="Content\Site.less" />
     <Content Include="Scripts\app\requestModule.js" />
     <Content Include="Scripts\app\utilsModule.js" />
     <Content Include="Scripts\bootstrap.js" />
