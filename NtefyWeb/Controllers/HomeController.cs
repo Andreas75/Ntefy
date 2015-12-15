@@ -22,11 +22,10 @@ namespace NtefyWeb.Controllers
 
         public async Task<ActionResult> Index()
         {            
-            await GetAccessToken();
+            //await GetAccessToken();
             if (Request.IsAuthenticated)
             {
-                var userRepo = new UserRepository();                
-                new SearchRequestBackgroundTask().SetUpBrackgroundTask(userRepo.GetCurrentUserMarket());
+                var userRepo = new UserRepository();              
             }
             return View();
         }

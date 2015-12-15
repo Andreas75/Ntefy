@@ -12,5 +12,7 @@ namespace NtefyWeb.DAL.Repository.Abstract
         void AddRequest(Guid recordId, string userId);
         List<Request> GetAllRequestsForUser(string userId);
         List<Request> GetAllRequestForAlbum(Guid recordId);
+        void SetRequestAsFilled(Guid recordId, string country);
+        List<Request> GetAllRequests();
     }
 }

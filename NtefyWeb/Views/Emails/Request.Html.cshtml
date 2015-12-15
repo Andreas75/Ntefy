@@ -5,8 +5,10 @@ Content-Type: text/html; charset=utf-8
 <html>
 <body>
    <h1>Hello</h1>
-    <p>@Model.Artist - @Model.Title is now available on Spotify.</p>
-    <a href="@Model.Url">Listen here</a>
-    <img src="@Model.ImageUrl" />
+    <div style="float:left; margin-right: 1em;"><img src="@Model.ImageUrl" /></div>
+    <div>
+        <p>@Model.Artist - @Model.Title is now available on Spotify.</p>
+        <a href="@Model.Url">Listen here</a>
+    </div>    
 </body>
 </html>

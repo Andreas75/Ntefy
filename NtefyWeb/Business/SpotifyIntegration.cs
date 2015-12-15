@@ -17,14 +17,20 @@ namespace NtefyWeb.Business
         {
             recordsHandling = new RecordsHandling();
         }
-        public async Task<SimpleAlbum> SerachForAlbum(Record record, string token, string userMarket)
-        {           
+        public async Task<AlbumSearch> SerachForAlbum(Record record, string token, string userMarket)
+        {
+            var albumIds = new List<string>();
             var album = await recordsHandling.SearchForRecord<AlbumSearch>(record.Artist, record.Title, token, userMarket);
-            if (album.Albums.Items.Count > 0)
-            {
-                return album.Albums.Items.First();
-            }
-            return null;
+            //if (album.Albums.Items.Count > 0)
+            //{                
+            //    var foundAlbum = await HandleSpotifyResult.CompareFoundAlbumToRequest(record.Artist, record.Title, album.Albums.Items, token);
+            //    if (foundAlbum != null)
+            //    {
+            //        return foundAlbum;
+            //    }                
+            //}                  
+           
+            return album;
         }
 
         public async Task<FullAlbum> GetAlbum(string id, string token)
@@ -36,6 +42,6 @@ namespace NtefyWeb.Business
         public async Task<MultipleAlbumSearch> GetMultibleAlbums(string ids, string token)
         {
             return await recordsHandling.GetMultipleRecords<MultipleAlbumSearch>(ids, token);
-        }
+        }        
     }
 }

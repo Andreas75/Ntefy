@@ -21,12 +21,9 @@
 <body> 
     <div class="container body-content">
         <header>
-            <img src="~/Content/Images/Ntefy_Logo2.png" class="logo img-responsive" />
+            <img src="@Url.Content("~/Content/Images/Ntefy_Logo2.png")" class="logo img-responsive" />
         </header>
-        @if (Request.IsAuthenticated)
-        {
-            @Html.Partial("_Menu")
-        }
+       
        
       <hr />
         @RenderBody()

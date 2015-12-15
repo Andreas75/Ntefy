@@ -13,8 +13,13 @@ namespace NtefyWeb
         {
             ConfigureAuth(app);
             GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");
-            app.UseHangfireDashboard();
-            app.UseHangfireServer();            
+            //app.UseHangfireDashboard()
+            app.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                AuthorizationFilters = new[] { new HangFireAuthorizationFilter() }
+            });
+            app.UseHangfireServer();
+            new SearchRequestBackgroundTask().SetUpBrackgroundTask();
         }
     }
 }

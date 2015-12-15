@@ -32,6 +32,7 @@ namespace NtefyWeb.DAL.Models
         public Guid RequestId { get; set; }
         public string UserId { get; set; }        
         public Guid RecordId { get; set; }
+        public string Country { get; set; }
         public DateTime RequestDate { get; set; }
         public DateTime? FillDate { get; set; }
         

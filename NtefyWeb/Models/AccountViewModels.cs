@@ -1,10 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using NtefyWeb.Business;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
 
 namespace NtefyWeb.Models
 {
     public class ExternalLoginConfirmationViewModel
     {
+        //public List<KeyValuePair<string, string>> CountryList { get; set; }
+        public System.Web.Mvc.SelectList CountryList { get; set; } 
+        
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -12,6 +17,8 @@ namespace NtefyWeb.Models
         [Required]
         [Display(Name = "Country")]
         public string Country { get; set; }
+
+        //public System.Web.Mvc.SelectList countrys = new System.Web.Mvc.SelectList(countryList);
     }
 
     public class ExternalLoginListViewModel

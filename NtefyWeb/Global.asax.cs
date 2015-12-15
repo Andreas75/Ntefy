@@ -22,8 +22,8 @@ namespace NtefyWeb
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             HttpRuntime.Cache.Insert("cachedAlbums", dbContext.Records.ToList(), null, System.Web.Caching.Cache.NoAbsoluteExpiration, TimeSpan.Zero);
-            HttpRuntime.Cache.Insert("cachedRequests", dbContext.Requests.ToList(), null, System.Web.Caching.Cache.NoAbsoluteExpiration, TimeSpan.Zero);            
-
+            HttpRuntime.Cache.Insert("cachedRequests", dbContext.Requests.ToList(), null, System.Web.Caching.Cache.NoAbsoluteExpiration, TimeSpan.Zero);
+            
         }
     }
 }

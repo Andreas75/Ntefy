@@ -73,6 +73,21 @@ img.logo.img-responsive {
   padding-top: 30px;
   /*border-bottom: 1px solid transparent;*/
 }
+.albumImage {
+  float: left;
+  margin-right: 1.5em;
+  margin-top: 0.25em;
+}
+.authProvider,
+.authInfo {
+  margin-bottom: 1.5em;
+}
+input#btnRegister {
+  margin-left: 9.5em;
+}
+select#CountryList {
+  width: 100%;
+}
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px white inset;
 }

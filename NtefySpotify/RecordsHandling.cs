@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using NtefySpotify.Models;
+using System.Threading;
+
 
 
 namespace NtefySpotify
@@ -23,11 +25,11 @@ namespace NtefySpotify
             return result;
         }
 
-        public async Task<T> SearchForRecord<T>(string artist, string title, string token, string userMarket)
+        public async Task<T> SearchForRecord<T>(string artist, string title, string token, string userMarket = null)
         {            
             var encodedTitle = Uri.EscapeDataString(title);
             var encodedArtist = Uri.EscapeDataString(artist);
-            string searchTermsAlbumAndArtist = string.Format("album:{0}{1}artist:{2}", encodedTitle, "%20", encodedArtist);
+            string searchTermsAlbumAndArtist = string.Format("album:\"{0}\"{1}artist:{2}", encodedTitle, "%20", encodedArtist);
             
             var searchTermType = "&type=album";
             var searchMarket = string.Format("&market={0}", userMarket);
@@ -36,9 +38,14 @@ namespace NtefySpotify
             sb.Append("https://api.spotify.com/v1/search?q=");
             sb.Append(searchTermsAlbumAndArtist);
             sb.Append(searchTermType);
-            sb.Append(searchMarket);
+            if (userMarket != null)
+            {
+                sb.Append(searchMarket);
+            }
+            
             var result = await DoRequest<T>(sb.ToString(), token);
-            return result;            
+           
+            return result;           
         }
 
         public async Task<T> GetMultipleRecords<T>(string recordIds, string token)
@@ -53,7 +60,7 @@ namespace NtefySpotify
         private async Task<T> DoRequest<T>(string url, string token)
         {
             try
-            {       
+            {                
                 WebRequest request = WebRequest.Create(url);
                 request.Method = "GET";
                 request.Headers.Add("Authorization", "Bearer " + token);
@@ -62,7 +69,7 @@ namespace NtefySpotify
                 T type = default(T);
 
                 using (WebResponse response = await request.GetResponseAsync())
-                {
+                {                    
                     using (Stream dataStream = response.GetResponseStream())
                     {
                         using (StreamReader reader = new StreamReader(dataStream))
@@ -71,15 +78,32 @@ namespace NtefySpotify
                             type = JsonConvert.DeserializeObject<T>(responseFromServer);
                         }
                     }
+                    return type;
                 }
-                return type;
+               
             }
-            catch (Exception ex)
+
+            catch (WebException exception)
             {
-                var exception = ex;
+                if (exception.Status == WebExceptionStatus.ProtocolError)
+                {
+                    var response = (HttpWebResponse)exception.Response;
+                    if (response.StatusCode == (HttpStatusCode)429)
+                    {
+                        var timeToWait = response.Headers["Retry-After"];
+                        if (timeToWait != null)
+                        {
+                            var time = TimeSpan.FromSeconds(Convert.ToDouble(timeToWait));
+                            DoRequest<T>(url, token).Wait(time);
+                        }
+                    }
+                }
+
                 throw;
             }
         }
+
+
 
         
     }

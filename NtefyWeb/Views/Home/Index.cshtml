@@ -47,8 +47,11 @@ else
 @section scripts {
     <script id="request-found-template" type="text/x-handlebars-template">
         <div class="album-wrapper">
-            <p>Your request for <b>{{this.artist}} - {{this.title}}</b> is already on Spotify!</p>
-            <p>Listen here: <a href="{{this.url}}">{{this.artist}} - {{this.title}}</a></p>
+            <div class="albumImage"><img src="{{this.image}}" /></div>
+            <div class="albumInfo">
+                <p>Your request for <b>{{this.artist}} - {{this.title}}</b> is already on Spotify!</p>
+                <p>Listen here: <a href="{{this.url}}">{{this.artist}} - {{this.title}}</a></p>
+            </div>
         </div>
     </script>
     <script id="request-added-template" type="text/x-handlebars-template">

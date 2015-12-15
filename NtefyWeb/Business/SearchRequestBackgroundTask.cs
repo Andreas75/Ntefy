@@ -20,6 +20,7 @@ namespace NtefyWeb.Business
         private SpotifyIntegration spotifyIntegration;
         private RequestRepository requestRepo;
         private RecordRepository recordRepo;
+        private List<string> recordIds = new List<string>();
 
         public SearchRequestBackgroundTask()
         {
@@ -31,57 +32,82 @@ namespace NtefyWeb.Business
 
         public List<Request> GetAllRequestedRecords()
         {
-            return Requests.GroupBy(x => x.RecordId).Select(y => y.FirstOrDefault()).ToList();
+            //return requestRepo.GetAllUnfilledRequests();
+            return requestRepo.FilterdRequestsForRecordAndMarket();
         }
 
-        public async Task SearchForRequests(string userMarket)
+        public async Task SearchForRequests()
         {
-            var recordIds = new List<string>();
+            recordIds.Clear();
             var token = await new AccessToken().GetAccessToken();
             var availableRecords = new List<string>();            
-            var requests = GetAllRequestedRecords();            
-            var artists = new List<string>();
-            foreach (var request in requests)
+            var requests = GetAllRequestedRecords();
+            if (requests != null && requests.Count > 0)
             {
-                var result = await spotifyIntegration.SerachForAlbum(request.Record, token, userMarket);
-                if (result != null)
+                var artists = new List<string>();
+                foreach (var request in requests)
                 {
-                    recordRepo.UpdateRecordTitle(request.Record, result.Name);
-                    recordIds.Add(result.Id);                                                         
-                }
-            }
-            var albumResults = await spotifyIntegration.GetMultibleAlbums(string.Join(",", recordIds), token);
-
-            foreach (var album in albumResults.Albums)
-            {
-                try
-                {
-                    Guid recordId = recordRepo.GetIdForRecord(new Record { Artist = album.Artists.First().Name, Title = album.Name });
-                    if (recordId != Guid.Empty)
+                    if (request.FillDate == null)
                     {
-                        var recipitans = requestRepo.GetAllRecipitansForAlbumRequest(recordId);
-                        Create.CreateEmail(album, recipitans);
+                        var result = await spotifyIntegration.SerachForAlbum(request.Record, token, request.Country);
+                        if (result != null)
+                        {
+                            foreach (var item in result.Albums.Items)
+                            {
+                                recordRepo.UpdateRecordTitle(request.Record, item.Name);
+                                recordIds.Add(result.Albums.Items.FirstOrDefault().Id);
+                            }                            
+                        }
                     }
-                    
                 }
-                catch(Exception ex)
-                {
-                    var e = ex;
-                    throw;
-                }
-                
+                FillRequest(recordIds, requests, token);  
             }
-            
+                     
         }
 
-        public void SearchRequestsSync(string userMarket)
-        {           
-            SearchForRequests(userMarket).Wait();
-        }
-
-        public void SetUpBrackgroundTask(string userMarket)
+        public async void FillRequest(List<string> recordIds, List<Request> requests, string token)
         {
-            RecurringJob.AddOrUpdate(() => SearchRequestsSync(userMarket), Cron.Minutely);
+            List<FullAlbum> albums = new List<FullAlbum>();
+            if (recordIds.Count > 0)
+            {
+                var albumResults = await spotifyIntegration.GetMultibleAlbums(string.Join(",", recordIds), token);
+                foreach (var request in requests)
+                {
+                    foreach (var a in albumResults.Albums)
+                    {
+                        var artistCompare = await StringCompare.CompareResultToRequest(request.Record.Artist, a.Artists[0].Name);
+                        var titleCompare = await StringCompare.CompareResultToRequest(request.Record.Title, a.Name);
+                        if (artistCompare && titleCompare)
+                        {
+                            albums.Add(a);
+                        }
+                    }
+                    //var albums = albumResults.Albums.Where(x => x.Artists.Any(y => y.Name.ToLower() == request.Record.Artist.ToLower() && x.Name.ToLower() == request.Record.Title.ToLower())).ToList();
+                    var album = albums.Where(x => x.AvailableMarkets.Contains(request.Country.ToUpper())).FirstOrDefault();
+                    if (album != null)
+                    {
+                        Guid recordId = recordRepo.GetIdForRecord(new Record { Artist = request.Record.Artist, Title = request.Record.Title });
+                        if (recordId != Guid.Empty)
+                        {
+                            var recipitans = requestRepo.GetAllRecipitansForAlbumRequest(recordId, request.Country);
+                            Create.CreateEmail(album, recipitans);
+                            requestRepo.SetRequestAsFilled(recordId, request.Country);
+                        }
+                    }
+                   
+                }                
+            }
+        }
+
+        [AutomaticRetry(Attempts = 0)]
+        public void SearchRequestsSync()
+        {           
+            SearchForRequests().Wait();
+        }
+
+        public void SetUpBrackgroundTask()
+        {
+            RecurringJob.AddOrUpdate(() => SearchRequestsSync(), "*/60 * * * *");
         }
     }
 }
