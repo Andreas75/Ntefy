@@ -1,4 +1,5 @@
 ﻿using NtefySpotify.Models;
+using NtefyWeb.Business.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,16 @@ using System.Web;
 
 namespace NtefyWeb.Business
 {
-    public static class HandleSpotifyResult
+    public class HandleSpotifyResult : IHandleSpotifyResult
     {
-        public static async Task<FullAlbum> CompareFoundAlbumToRequest(string requestedArtist, string requestedTitle, List<SimpleAlbum> foundAlbums, string token)
+        //private SpotifyIntegration _spotifyIntegration;
+
+        public HandleSpotifyResult()
         {
+            //_spotifyIntegration = new SpotifyIntegration();
+        }
+        public async Task<FullAlbum> CompareFoundAlbumToRequest(string requestedArtist, string requestedTitle, List<SimpleAlbum> foundAlbums, string token)
+        {            
             foreach (var album in foundAlbums)
             {
                 var fullAlbum = await new SpotifyIntegration().GetAlbum(album.Id, token);

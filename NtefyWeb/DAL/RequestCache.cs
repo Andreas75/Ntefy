@@ -1,4 +1,5 @@
 ﻿using NtefyWeb.DAL.Models;
+using NtefyWeb.DAL.Repository.Abstract;
 using NtefyWeb.DAL.Repository.Concrete;
 using System;
 using System.Collections.Generic;
@@ -7,35 +8,35 @@ using System.Web;
 
 namespace NtefyWeb.DAL
 {
-    public static class RequestCache
+    public class RequestCache : IRequestCache
     {
-        private static RequestRepository dbContext;
+        private RequestRepository _dbContext;
 
-        static RequestCache()
+        public RequestCache()
         {
-            dbContext = new RequestRepository();
+            _dbContext = new RequestRepository();
         }
 
-        public static void UpDateAllCache()
+        public void UpDateAllCache()
         {
             HttpRuntime.Cache.Remove("cachedRequests");
-            HttpRuntime.Cache.Insert("cachedRequests", dbContext.GetAllRequests(), null, System.Web.Caching.Cache.NoAbsoluteExpiration, TimeSpan.Zero);
+            HttpRuntime.Cache.Insert("cachedRequests", _dbContext.GetAllRequests(), null, System.Web.Caching.Cache.NoAbsoluteExpiration, TimeSpan.Zero);
         }
 
-        public static List<Request> GetAllFromCache()
+        public List<Request> GetAllFromCache()
         {
             return HttpRuntime.Cache["cachedRequests"] as List<Request>;
         }
 
 
 
-        public static void UpDateAllUnfilledRequests()
+        public void UpDateAllUnfilledRequests()
         {
             HttpRuntime.Cache.Remove("cachedUnfilldRequests");
-            HttpRuntime.Cache.Insert("cachedUnfilldRequests", dbContext.GetAllUnfilledRequests(), null, System.Web.Caching.Cache.NoAbsoluteExpiration, TimeSpan.Zero);
+            HttpRuntime.Cache.Insert("cachedUnfilldRequests", _dbContext.GetAllUnfilledRequests(), null, System.Web.Caching.Cache.NoAbsoluteExpiration, TimeSpan.Zero);
         }
 
-        public static List<Request> GetAllUnfilledRequests()
+        public List<Request> GetAllUnfilledRequests()
         {            
             return HttpRuntime.Cache["cachedUnfilldRequests"] as List<Request>;
         }

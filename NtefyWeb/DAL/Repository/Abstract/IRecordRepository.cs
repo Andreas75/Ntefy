@@ -9,5 +9,7 @@ namespace NtefyWeb.DAL.Repository.Abstract
     public interface IRecordRepository
     {
         void AddRecord(Record record);
+        void UpdateRecordTitle(Record record, string spotifyTitle);
+        Guid GetIdForRecord(Record record);
     }
 }

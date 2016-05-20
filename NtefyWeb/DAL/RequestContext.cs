@@ -13,7 +13,9 @@ namespace NtefyWeb.DAL
     {
         public RequestContext()
             : base("DefaultConnection", throwIfV1Schema: false)
-        { }
+        {
+            //Database.SetInitializer<RequestContext>(new CreateDatabaseIfNotExists<RequestContext>());
+        }
 
         public DbSet<Request> Requests { get; set; }
         public DbSet<Record> Records { get; set; }

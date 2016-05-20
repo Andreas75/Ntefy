@@ -15,7 +15,8 @@ using System.Threading;
 namespace NtefySpotify
 {
     public class RecordsHandling
-    {
+    {            
+
         public async Task<T> GetSpecificRecord<T>(string recordId, string token)
         {
             StringBuilder sb = new StringBuilder();
@@ -57,7 +58,7 @@ namespace NtefySpotify
             return result;
         }
 
-        private async Task<T> DoRequest<T>(string url, string token)
+        public async Task<T> DoRequest<T>(string url, string token)
         {
             try
             {                

@@ -9,6 +9,7 @@ using NtefyWeb.DAL;
 using NtefyWeb.DAL.Models;
 using Hangfire;
 using NtefyWeb.Business;
+using NtefyWeb.Business.Abstract;
 
 namespace NtefyWeb
 {
@@ -21,9 +22,12 @@ namespace NtefyWeb
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+           
             HttpRuntime.Cache.Insert("cachedAlbums", dbContext.Records.ToList(), null, System.Web.Caching.Cache.NoAbsoluteExpiration, TimeSpan.Zero);
             HttpRuntime.Cache.Insert("cachedRequests", dbContext.Requests.ToList(), null, System.Web.Caching.Cache.NoAbsoluteExpiration, TimeSpan.Zero);
+
             
+                        
         }
     }
 }

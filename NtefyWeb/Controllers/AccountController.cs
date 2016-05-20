@@ -324,12 +324,14 @@ namespace NtefyWeb.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
+            //ControllerContext.HttpContext.Session.RemoveAll();
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
             if (loginInfo == null)
             {
                 return RedirectToAction("Login");
             }
 
+           
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
             switch (result)
@@ -345,12 +347,47 @@ namespace NtefyWeb.Controllers
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    var countryList = CountryCodes.CreateCountryList();                    
+                    var countryList = CountryCodes.CreateCountryList();
                     var selectCountryList = new SelectList(countryList, "Key", "Value");
-                    
+
                     return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email, CountryList = selectCountryList });
             }
         }
+        //[AllowAnonymous]
+        //public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
+        //{
+        //    var result = await AuthenticationManager.AuthenticateAsync(DefaultAuthenticationTypes.ExternalCookie);
+        //    if (result == null || result.Identity == null)
+        //    {
+        //        return RedirectToAction("Login");
+        //    }
+
+        //    var idClaim = result.Identity.FindFirst(ClaimTypes.NameIdentifier);
+        //    if (idClaim == null)
+        //    {
+        //        return RedirectToAction("Login");
+        //    }
+
+        //    var login = new UserLoginInfo(idClaim.Issuer, idClaim.Value);
+        //    var name = result.Identity.Name == null ? "" : result.Identity.Name.Replace(" ", "");
+
+        //    // Sign in the user with this external login provider if the user already has a login
+        //    var user = await UserManager.FindAsync(login);
+        //    if (user != null)
+        //    {
+        //        await SignInAsync(user, isPersistent: false);
+        //        return RedirectToLocal(returnUrl);
+        //    }
+        //    else
+        //    {
+        //        // If the user does not have an account, then prompt the user to create an account
+        //        ViewBag.ReturnUrl = returnUrl;
+        //        ViewBag.LoginProvider = login.LoginProvider;
+        //        var countryList = CountryCodes.CreateCountryList();
+        //        var selectCountryList = new SelectList(countryList, "Key", "Value");
+        //        return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = user.Email, CountryList = selectCountryList });
+        //    }
+        //}
 
         //
         // POST: /Account/ExternalLoginConfirmation

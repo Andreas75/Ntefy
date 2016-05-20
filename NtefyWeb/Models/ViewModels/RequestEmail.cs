@@ -6,7 +6,7 @@ using Postal;
 
 namespace NtefyWeb.Models.ViewModels
 {
-    public class RequestEmail : Email
+    public class RequestEmail : Email, IRequestEmail
     {
         public string Artist { get; set; }
         public string Title { get; set; }

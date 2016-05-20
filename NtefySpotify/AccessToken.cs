@@ -13,9 +13,17 @@ namespace NtefySpotify
 {
     public class AccessToken
     {
-        public async Task<string> GetAccessToken()
+        private SpotifyToken _spotifyToken;
+
+        public AccessToken()
         {
-            SpotifyToken token = new SpotifyToken();
+            _spotifyToken = new SpotifyToken();
+        }
+       
+
+        public async Task<SpotifyToken> GetAccessToken()
+        {
+            //SpotifyToken token = new SpotifyToken();
 
             string postString = string.Format("grant_type=client_credentials");
             byte[] byteArray = Encoding.UTF8.GetBytes(postString);
@@ -24,7 +32,7 @@ namespace NtefySpotify
 
             WebRequest request = WebRequest.Create(url);
             request.Method = "POST";
-            request.Headers.Add("Authorization", "Basic YjlkZjg0NGQzNjRjNGY5OWFhM2JhMzdmNTYyNjI5Nzc6MjU1MTU0ZmQ5NjRhNGVkYWI5NmIzMTUyMjRkZGY1ZmI=");
+            request.Headers.Add("Authorization", "Basic YzM3OWM2YzZiYmMxNDRjOThkNzFmM2QyZmFkYjVhMWU6ODQ5OTA4ZWUxOGI1NGI5OTk3N2I4MjA3MmVkMTAwZGQ=");
             request.ContentType = "application/x-www-form-urlencoded";
             request.ContentLength = byteArray.Length;
 
@@ -42,13 +50,15 @@ namespace NtefySpotify
                             using (StreamReader reader = new StreamReader(responseStream))
                             {
                                 string responseFromServer = reader.ReadToEnd();
-                                token = JsonConvert.DeserializeObject<SpotifyToken>(responseFromServer);
-                                var expires = token.expires_in;
+                                _spotifyToken = JsonConvert.DeserializeObject<SpotifyToken>(responseFromServer);
+                                _spotifyToken.createdTime = DateTime.Now;
+                                var expires = _spotifyToken.expires_in;
                             }
                         }
                     }
                 }
-                return token.access_token;
+
+                return _spotifyToken;
             }
             catch (Exception ex)
             {
@@ -58,13 +68,27 @@ namespace NtefySpotify
 
         }
 
+        public async Task<string> ValidateAccessToken(SpotifyToken token)
+        {
+            if (token != null)
+            {
+                if (token.createdTime > DateTime.Now.AddHours(-1))
+                {
+                    return token.access_token;
+                }
+            }
+            var spotifyToken = await GetAccessToken();
+            return spotifyToken.access_token;
+        }
        
     }
 
+    [Serializable]
     public class SpotifyToken
     {
         public string access_token { get; set; }
         public string token_type { get; set; }
         public int expires_in { get; set; }
+        public DateTime createdTime { get; set; }
     }
 }

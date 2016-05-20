@@ -13,20 +13,24 @@ using System.Web.Configuration;
 using NtefyWeb.Business;
 using Hangfire;
 using NtefyWeb.DAL.Repository.Concrete;
+using NtefyWeb.Business.Abstract;
 
 namespace NtefyWeb.Controllers
 {
     public class HomeController : Controller
     {
         private AccessToken accessToken;
+        //private ISearchRequestBackgroundTask _searchRequestBackgroundTask;
+
+        //public HomeController(ISearchRequestBackgroundTask srbt)
+        //{
+        //    _searchRequestBackgroundTask = srbt;
+        //}
 
         public async Task<ActionResult> Index()
-        {            
-            //await GetAccessToken();
-            if (Request.IsAuthenticated)
-            {
-                var userRepo = new UserRepository();              
-            }
+        {
+            //_searchRequestBackgroundTask.SetUpBrackgroundTask();
+            Session["Bull"] = "Shit";
             return View();
         }
 
@@ -36,12 +40,12 @@ namespace NtefyWeb.Controllers
             return RedirectToAction("MakeRequest");
         }
 
-        public async Task GetAccessToken()
-        {
-            accessToken = new AccessToken();
-            var x = await accessToken.GetAccessToken();            
-            Session["accesstoken"] = x;            
-        }
+        //public async Task GetAccessToken()
+        //{
+        //    accessToken = new AccessToken();
+        //    var x = await accessToken.GetAccessToken();            
+        //    Session["accesstoken"] = x;            
+        //}
 
         public ActionResult MakeRequest()
         {

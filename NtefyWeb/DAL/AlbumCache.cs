@@ -13,7 +13,7 @@ namespace NtefyWeb.DAL
 
         static AlbumCache()
         {
-            dbContext = new RequestContext();
+            dbContext = RequestContext.Create();
         }
 
         public static void UpdateCache()
@@ -30,6 +30,7 @@ namespace NtefyWeb.DAL
 
         public static Record GetRecordFromCache(string artist, string title)
         {
+            UpdateCache();
             var cachedRecords = HttpRuntime.Cache["cachedAlbums"] as List<Record>;
             var result = cachedRecords.FirstOrDefault(x => artist.ToLower() == x.Artist.ToLower() && title.ToLower() == x.Title.ToLower());           
             return result;

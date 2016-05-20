@@ -10,13 +10,15 @@ namespace NtefyWeb.DAL.Repository.Concrete
 {
     public class RequestRepository : IRequestRepository
     {
-        public RequestContext dbContext;
-        public UserRepository userRepo;
+        //private RequestContext dbContext;
+        //private UserRepository _userRepository;
+        //private RequestCache _requestCache;
 
         public RequestRepository()
         {
-            dbContext = new RequestContext();
-            userRepo = new UserRepository();
+            //dbContext = new RequestContext();
+            //_userRepository = new UserRepository();
+            //_requestCache = new RequestCache();
         }
 
         public void AddRequest(Guid recordId, string userId)
@@ -26,7 +28,7 @@ namespace NtefyWeb.DAL.Repository.Concrete
             {
                 if (userId != null)
                 {
-                    market = userRepo.GetUserMarket(userId);
+                    market = new UserRepository().GetUserMarket(userId);
                 }
                 var request = new Request
                 {                   
@@ -36,14 +38,17 @@ namespace NtefyWeb.DAL.Repository.Concrete
                     FillDate = null,
                     Country = market
                 };
-                var cachedRequests = RequestCache.GetAllFromCache();
+                var cachedRequests = new RequestCache().GetAllFromCache();
                 
                 var isDublicate = cachedRequests.Any(x => x.UserId == request.UserId && x.RecordId == request.RecordId);
                 if (!isDublicate)
                 {
-                    dbContext.Requests.Add(request);
-                    dbContext.SaveChanges();
-                    RequestCache.UpDateAllCache();                    
+                    var dbContext = new RequestContext();
+                        dbContext.Requests.Add(request);
+                        dbContext.SaveChanges();
+                        new RequestCache().UpDateAllCache(); 
+                    
+                                      
                 }               
             }            
         }
@@ -52,7 +57,7 @@ namespace NtefyWeb.DAL.Repository.Concrete
         public List<Request> GetAllRequestsForUser(string userId)
         {
             var requestList = new List<Request>();
-            requestList = RequestCache.GetAllFromCache();
+            requestList = new RequestCache().GetAllFromCache();
             if(requestList.Count > 0)
             {
                 return requestList.Where(x => x.UserId == userId) as List<Request>;
@@ -63,7 +68,7 @@ namespace NtefyWeb.DAL.Repository.Concrete
         public List<Request> GetAllRequestForAlbum(Guid recordId)
         {
             var requestList = new List<Request>();
-            requestList = RequestCache.GetAllFromCache();
+            requestList = new RequestCache().GetAllFromCache();
             if (requestList.Count > 0)
             {
                 return requestList.Where(x => x.RecordId == recordId) as List<Request>;
@@ -74,19 +79,22 @@ namespace NtefyWeb.DAL.Repository.Concrete
         public string GetAllRecipitansForAlbumRequest(Guid recordId, string market)
         {
             var requestList = new List<Request>();
-            requestList = RequestCache.GetAllFromCache();
-            var allUsers = requestList.Where(x => x.RecordId == recordId && x.Country == market).Select(y => y.UserId).ToList<string>();           
-            return userRepo.GetUsersEmail(allUsers);
+            requestList = new RequestCache().GetAllFromCache();
+            var allUsers = requestList.Where(x => x.RecordId == recordId && x.Country == market).Select(y => y.UserId).ToList<string>();
+            return new UserRepository().GetUsersEmail(allUsers);
         }       
 
         public void SetRequestAsFilled(Guid recordId, string country)
         {
-            var requests = dbContext.Requests.Where(x => x.RecordId == recordId && x.Country.ToLower() == country.ToLower());
-            foreach (var request in requests)
-            {
-                request.FillDate = DateTime.Now;
-            }
-            dbContext.SaveChanges();            
+            var dbContext = new RequestContext();
+                var requests = dbContext.Requests.Where(x => x.RecordId == recordId && x.Country.ToLower() == country.ToLower());
+                foreach (var request in requests)
+                {
+                    request.FillDate = DateTime.Now;
+                }
+                dbContext.SaveChanges();  
+            
+                     
         }
 
         public List<Request> GetAllUnfilledRequests()
@@ -105,6 +113,11 @@ namespace NtefyWeb.DAL.Repository.Concrete
 
         public List<Request> GetAllRequests()
         {
+            //using(var dbContext = RequestContext.Create())
+            //{
+            //    return dbContext.Requests.ToList<Request>();
+            //}
+            var dbContext = new RequestContext();
             return dbContext.Requests.ToList<Request>();
         }
     }

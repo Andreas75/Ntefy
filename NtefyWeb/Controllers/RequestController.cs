@@ -16,41 +16,47 @@ using System.Web.Mvc;
 using System.Net.Mime;
 using System.Net.Mail;
 using NtefyEmail;
+using NtefyWeb.DAL.Repository.Abstract;
+using NtefyWeb.Business.Abstract;
 
 namespace NtefyWeb.Controllers
 {
     public class RequestController : Controller
-    {
-        private RequestRepository requestRepo;
-        private RecordRepository recordRepo;
-        private UserRepository userRepo;       
+    {       
 
         public RequestController()
-        {
-            requestRepo = new RequestRepository();
-            recordRepo = new RecordRepository();
-            userRepo = new UserRepository();                      
+        {            
         }
-
+        
         public ActionResult MyRequests()
         {            
             return View();            
         }
 
         [HttpPost]
-        public async Task<ActionResult> MakeRequest(RecordViewModel model)
-        {            
-            //var token = (string)Session["accesstoken"];
-            var accessToken = new AccessToken();
-            var token = await accessToken.GetAccessToken();
+        public async Task<ActionResult> MakeRequest(RecordModel model)
+        {
+            string token = string.Empty;
+            SpotifyToken spotifyToken;
+            spotifyToken = Session["accessToken"] as SpotifyToken;
+            if (spotifyToken == null)
+            {
+                spotifyToken = await new AccessToken().GetAccessToken();
+                Session["accessToken"] = spotifyToken;
+                token = spotifyToken.access_token;
+            }
+            else
+            {
+                token = await new AccessToken().ValidateAccessToken(spotifyToken);
+            }            
             
             if (ModelState.IsValid)
             {
-                var album = await new SpotifyIntegration().SerachForAlbum(new Record { Artist = model.Artist, Title = model.Title }, token, userRepo.GetCurrentUserMarket());
-                var fullAlbum = await HandleSpotifyResult.CompareFoundAlbumToRequest(model.Artist, model.Title, album.Albums.Items, token);        
+                var album = await new SpotifyIntegration().SerachForAlbum(model.Artist, model.Title, token, new UserRepository().GetCurrentUserMarket());
+                var fullAlbum = await new HandleSpotifyResult().CompareFoundAlbumToRequest(model.Artist, model.Title, album.Albums.Items, token);        
                 if (fullAlbum != null)
                 {                   
-                    if (fullAlbum.Tracks.Items.Count > 1)
+                    if (fullAlbum.Tracks.Items.Count > 1 && DateTime.Parse(fullAlbum.ReleaseDate) <= DateTime.Now)
                     {                        
                         var resultJson = Json(new
                         {
@@ -59,21 +65,21 @@ namespace NtefyWeb.Controllers
                             title = fullAlbum.Name,
                             image = fullAlbum.Images.Last().Url,
                             url = fullAlbum.ExternalUrls["spotify"]
-                        });
+                        });                        
                         return resultJson;
                     }
                
                 }
                 else
                 {
-                    recordRepo.AddRecord(new Record { Artist = model.Artist, Title = model.Title });
+                    new RecordRepository().AddRecord(new Record { Artist = model.Artist, Title = model.Title });
                     var recordFromCache = AlbumCache.GetRecordFromCache(model.Artist, model.Title);
                     if (recordFromCache != null)
                     {
-                        requestRepo.AddRequest(recordFromCache.RecordId, userRepo.GetCurrentUserId());
+                        new RequestRepository().AddRequest(recordFromCache.RecordId, new UserRepository().GetCurrentUserId());
                     }
                 }
-            }   
+            }
            
             return Json(new { message = "", artist = model.Artist, title = model.Title });
 

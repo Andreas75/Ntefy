@@ -11,27 +11,30 @@ namespace NtefyWeb.DAL.Repository.Concrete
 {
     public class RecordRepository : IRecordRepository
     {
-        public RequestContext dbContext;        
-        private RequestRepository requestRepository;
+        //public RequestContext dbContext;        
+        private RequestRepository _requestRepository;
 
         public RecordRepository()
         {
-            dbContext = new RequestContext();            
-            requestRepository = new RequestRepository();
+            //dbContext = new RequestContext();
+            _requestRepository = new RequestRepository();
         }
 
         public void AddRecord(Record record)
         {
             if (record != null)
             {
-                var cachedRecords = AlbumCache.GetAllRecordsFromCache();
-                var isDublicate = cachedRecords.Any(x => x.Artist.ToLower() == record.Artist.ToLower() && x.Title.ToLower() == record.Title.ToLower());
-                if(!isDublicate)
-                {
-                    dbContext.Records.Add(record);                    
-                    dbContext.SaveChanges();
-                    AlbumCache.UpdateCache();                    
-                }
+                var dbContext = new RequestContext();
+                    var cachedRecords = AlbumCache.GetAllRecordsFromCache();
+                    var isDublicate = cachedRecords.Any(x => x.Artist.ToLower() == record.Artist.ToLower() && x.Title.ToLower() == record.Title.ToLower());
+                    if (!isDublicate)
+                    {
+                        dbContext.Records.Add(record);
+                        dbContext.SaveChanges();
+                        AlbumCache.UpdateCache();
+                    }
+                
+                
                            
             }
         }
@@ -51,13 +54,16 @@ namespace NtefyWeb.DAL.Repository.Concrete
 
         public void UpdateRecordTitle(Record record, string spotifyTitle)
         {
-            var albums = dbContext.Records.Where(x => x.Artist == record.Artist && x.Title == record.Title);
-            foreach (var album in albums)
-            {
-                album.Title = spotifyTitle;
-            }
-            dbContext.SaveChanges();
-            AlbumCache.UpdateCache();
+            var dbContext = new RequestContext();
+                var albums = dbContext.Records.Where(x => x.Artist == record.Artist && x.Title == record.Title);
+                foreach (var album in albums)
+                {
+                    album.Title = spotifyTitle;
+                }
+                dbContext.SaveChanges();
+                AlbumCache.UpdateCache();
+            
+            
         }
 
         

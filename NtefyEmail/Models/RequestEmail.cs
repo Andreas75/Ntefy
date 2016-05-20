@@ -14,5 +14,6 @@ namespace NtefyEmail.Models
         public string Url { get; set; }
         public string ImageUrl { get; set; }
         public string Recipitans { get; set; }
+        public string From { get; set; }
     }
 }

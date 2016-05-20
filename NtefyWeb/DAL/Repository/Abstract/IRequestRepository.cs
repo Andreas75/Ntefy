@@ -14,5 +14,8 @@ namespace NtefyWeb.DAL.Repository.Abstract
         List<Request> GetAllRequestForAlbum(Guid recordId);
         void SetRequestAsFilled(Guid recordId, string country);
         List<Request> GetAllRequests();
+        List<Request> FilterdRequestsForRecordAndMarket();
+        string GetAllRecipitansForAlbumRequest(Guid recordId, string market);
+        List<Request> GetAllUnfilledRequests();
     }
 }

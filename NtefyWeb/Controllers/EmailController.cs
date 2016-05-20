@@ -10,7 +10,14 @@ using System.Web.Mvc;
 namespace NtefyWeb.Controllers
 {
     public class EmailController : Controller
-    {        
+    {
+        //private IRequestEmail _requestEmail;
+
+        public EmailController(IRequestEmail requestEmail)
+        {
+            //_requestEmail = requestEmail;
+        }
+
         public void CreateEmail(FullAlbum album, string recipitans)
          {
             var email = new RequestEmail

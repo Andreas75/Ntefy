@@ -10,5 +10,7 @@ namespace NtefyWeb.DAL.Repository.Abstract
     {
         string GetCurrentUserId();
         string GetCurrentUserMarket();
+        string GetUserMarket(string userId);
+        string GetUsersEmail(List<string> userIds);
     }
 }

@@ -9,7 +9,7 @@ namespace NtefyWeb.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(NtefyWeb.DAL.RequestContext context)
